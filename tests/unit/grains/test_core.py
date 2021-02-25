@@ -982,7 +982,7 @@ class CoreGrainsTestCase(TestCase, LoaderModuleMockMixin):
         with patch("platform.release", MagicMock(return_value="7")):
             version = core._windows_os_release_grain(caption, 1)
             self.assertEqual(version, "7")
-       
+
     @skipIf(not salt.utils.platform.is_linux(), "System is not Linux")
     def test_linux_memdata(self):
         """
