@@ -870,7 +870,12 @@ class CoreGrainsTestCase(TestCase, LoaderModuleMockMixin):
         self.assertIn(returned_grains["osrelease"], valid_releases)
 
     def test__windows_os_release_grain(self):
+
+        # Microsoft Hyper-V Server 2019, Microsoft Windows Server Datacenter -- Moved to here as they are valid product skus
+        # Issue https://github.com/saltstack/salt/issue/55212
         versions = {
+            "Microsoft Hyper-V Server" : "2019Server",
+            "Microsoft Windows Server Datacenter" : "2019Server",
             "Windows 10 Home": "10",
             "Windows 10 Pro": "10",
             "Windows 10 Pro for Workstations": "10",
@@ -977,13 +982,7 @@ class CoreGrainsTestCase(TestCase, LoaderModuleMockMixin):
         with patch("platform.release", MagicMock(return_value="7")):
             version = core._windows_os_release_grain(caption, 1)
             self.assertEqual(version, "7")
-
-        # Microsoft Hyper-V Server 2019
-        # Issue https://github.com/saltstack/salt/issue/55212
-        caption = "Microsoft Hyper-V Server"
-        version = core._windows_os_release_grain(caption, 1)
-        self.assertEqual(version, "2019Server")
-
+       
     @skipIf(not salt.utils.platform.is_linux(), "System is not Linux")
     def test_linux_memdata(self):
         """
